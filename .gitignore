@@ -5,6 +5,9 @@ backup.sql
 src/.DS_Store
 tests.php
 vendor
+id_rsa_b64.txt
+.github/workflows/ssh-test.yml
+
 
 
 
