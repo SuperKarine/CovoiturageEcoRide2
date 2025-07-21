@@ -1,4 +1,4 @@
-<?php require_once APP_ROOT . "/public/templates/header.php" ?>
+<?php require_once APP_ROOT . "/templates/page/header.php" ?>
 
 
     <header>
@@ -17,7 +17,7 @@
 
 <footer>
 
-<?php require_once APP_ROOT . "/public/templates/footer.php" ?>
+<?php require_once APP_ROOT . "/templates/page/footer.php" ?>
 
 
 

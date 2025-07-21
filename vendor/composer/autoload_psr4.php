@@ -6,5 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
+    'MongoDB\\' => array($vendorDir . '/mongodb/mongodb/src'),
     'App\\' => array($baseDir . '/src'),
 );

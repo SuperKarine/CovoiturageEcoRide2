@@ -36,7 +36,7 @@ services:
   db:
     image: mariadb:10.11
     restart: always
-    user: root
+    #user: root
     env_file:
       - .env
     volumes:
@@ -83,8 +83,13 @@ services:
     restart: always
     env_file:
       - .env
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: mongo
     depends_on:
-      - mongo
+      mongo:
+        condition: service_started
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mongoex.rule=Host(`mongo.localhost`)"

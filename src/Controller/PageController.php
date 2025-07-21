@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
-Class PageController
+Class PageController extends Controller
 {
     public function accueil(): void
     {
-        echo "Page accueil";
+        $this->render('page/accueil');
     }
 
     public function apropos(): void
     {
-        echo "Page apropos";
+        $this->render('page/apropos');
     }
+
+   
+
+
 
 
 

@@ -1059,3 +1059,5 @@ DELIMITER ;
 SELECT credit_restant, id_passagers
 FROM passagers;
 
+DELETE FROM utilisateurs
+WHERE id_utilisateurs IN (5, 25, 39);

@@ -18,6 +18,7 @@ class Router
     {
         try {
             $path = $this->normalizePath($uri);
+            
             if (!isset($this->routes[$path])) {
                 throw new Exception("La route n'existe pas");
             }
@@ -40,12 +41,13 @@ class Router
         }
     }
 
-    public static function NormalizePath(string $uri):string
+    public static function normalizePath(string $uri):string
     {
         $path = parse_url($uri, PHP_URL_PATH);
-        $path = rtrim($path, "/") . "/";
-        return $path;
+        $path = '/' . ltrim(rtrim($path, "/"), '/');
+        return $path === '/'? '/' : $path;
     }
 
     
 }
+

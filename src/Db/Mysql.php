@@ -16,10 +16,10 @@ class Mysql
     {
         $dbConf = parse_ini_file(APP_ROOT ."/". APP_ENV);
 
-        $this-<dbHost = $dbConf["db_host"];
+        $this->dbHost = $dbConf["db_host"];
         $this->dbUser = $dbConf["db_user"];
-        $this->Password = $dbConf["db_password"];
-        $this->dbPort = $dbconf["db_port"];
+        $this->dbPassword = $dbConf["db_password"];
+        $this->dbPort = $dbConf["db_port"];
         $this->dbName = $dbConf["db_name"];
     }
 
