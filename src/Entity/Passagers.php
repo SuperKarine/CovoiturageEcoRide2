@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Entity;
+
 class Passagers
 {
     private $id_passagers;
@@ -14,7 +16,7 @@ class Passagers
 
     public function getid()
     {
-        return$this->id_passagers;
+        return $this->id_passagers;
     }
 
     public function setid($id)
@@ -25,7 +27,7 @@ class Passagers
 
     public function get_date_trajet()
     {
-        return$this->date_trajet;
+        return $this->date_trajet;
     }
 
     public function set_date_trajet($date_trajet)
