@@ -1,5 +1,5 @@
 .env
-.env.local
+
 backup.sql
 .DS_Store
 src/.DS_Store
