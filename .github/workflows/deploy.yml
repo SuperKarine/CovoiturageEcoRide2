@@ -71,13 +71,13 @@ jobs:
 
       - name: 🔑 Test SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo Connection OK"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.VPS_IP }} "echo 'Connection OK'"
 
       - name: 📑 Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
+          username: root
           key: ~/.ssh/id_rsa
           source: ./docker-compose.yml
           target: ~/
@@ -96,7 +96,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
+          username: root
           key: ~/.ssh/id_rsa
           script: |
             cd
