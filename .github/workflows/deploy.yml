@@ -71,8 +71,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: 🔑 Test SSH connection
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo Connection OK"
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo Connection OK"
         
       - name: 📑 Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
