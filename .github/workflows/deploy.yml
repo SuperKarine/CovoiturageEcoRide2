@@ -36,7 +36,7 @@ jobs:
       - name: 🧑‍💻 Log in to the Container registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
@@ -66,19 +66,20 @@ jobs:
       - name: 🔑 Decode SSH key and configure
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_COVOITURAGEECORIDE2 }}" > ~/.ssh/id_rsa
+          rm -f ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_COVOITURAGEECORIDE2_B64 }}" | base64 -d > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: 🔑 Test SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.VPS_IP }} "echo '✅ SSH OK'; whoami; hostname"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo ✅ SSH OK"
 
       - name: 📑 Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.VPS_IP }}
-          username: root
-          key: ~/.ssh/id_rsa
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
           source: ./docker-compose.yml
           target: ~/
 
@@ -89,18 +90,18 @@ jobs:
       - name: 🔑 Decode SSH key and configure
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_COVOITURAGEECORIDE2 }}" > ~/.ssh/id_rsa
+          rm -f ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_COVOITURAGEECORIDE2_B64 }}" | base64 -d > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
       - name: 🚀 Deploy images to server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_IP }}
-          username: root
-          key: ~/.ssh/id_rsa
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
           script: |
             cd
-            docker compose down
             docker pull ghcr.io/${{ github.repository }}-backend:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
             docker pull ghcr.io/${{ github.repository }}-frontend:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
             docker compose up -d
