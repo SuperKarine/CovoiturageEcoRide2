@@ -72,7 +72,7 @@ jobs:
 
       - name: 🔑 Test SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.VPS_IP }} "echo 'SSH OK'; whoami; hostname"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.VPS_IP }} "echo SSH_OK"
         
       - name: 📑 Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
