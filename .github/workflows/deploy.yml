@@ -48,19 +48,29 @@ jobs:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🔑 Setup SSH key
+      - name: 🔑 Setup SSH key properly
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
+          # Écriture de la clé SSH
           echo "${{ secrets.SSH_COVOITURAGEECORIDE2 }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
+          
+          ssh-keyscan -H ${{ secrets.VPS_IP }} > ~/.ssh/known_hosts 2>/dev/null
+          chmod 600 ~/.ssh/known_hosts
+          
+          # Vérification de la clé 
+          echo "=== SSH Key Info ==="
+          head -1 ~/.ssh/id_rsa
+          echo "=== Known Hosts ==="
+          cat ~/.ssh/known_hosts
 
-      - name: 🔄 Check and reboot if required
+      - name: 🔄 Check and reboot if required 
         run: |
-          if ssh -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "[ -f /var/run/reboot-required ]"; then
+          if ssh -T -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "[ -f /var/run/reboot-required ]"; then
             echo "Reboot required, rebooting the server..."
-            ssh -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo reboot"
+            ssh -T -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo reboot"
+            echo "Waiting 2 minutes for reboot..."
             sleep 120
           else
             echo "No reboot required."
@@ -68,14 +78,17 @@ jobs:
 
       - name: 📜 Create test script 
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
+          ssh -T -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
             echo '#!/bin/sh' > /tmp/test_connection.sh
             echo 'echo Connection OK' >> /tmp/test_connection.sh
             chmod +x /tmp/test_connection.sh
-          "
+            echo "Test script created successfully"
+          EOF
 
-      - name: 📑 Copy docker-compose.yml
-        run: scp -i ~/.ssh/id_rsa ./docker-compose.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:~/
+      - name: 📑 Copy docker-compose.yml with SCP
+        run: |
+          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/known_hosts ./docker-compose.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:~/
+          echo "docker-compose.yml copied successfully"
 
   deploy:
     runs-on: ubuntu-latest
@@ -87,12 +100,18 @@ jobs:
           chmod 700 ~/.ssh
           echo "${{ secrets.SSH_COVOITURAGEECORIDE2 }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.VPS_IP }} > ~/.ssh/known_hosts 2>/dev/null
 
-      - name: 🚀 Deploy to server
+      - name: 🚀 Deploy to server 
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
+          ssh -T -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+            echo "Pulling latest Docker image..."
             docker pull ghcr.io/${{ github.repository }}-final:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
+            echo "Stopping existing containers..."
+            docker compose down
+            echo "Starting new containers..."
             docker compose up -d
+            echo "Cleaning up unused images..."
             docker image prune -f
-          "
+            echo "Deployment completed successfully!"
+          EOF
