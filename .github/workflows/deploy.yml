@@ -16,22 +16,10 @@ jobs:
       packages: write
     strategy:
       matrix:
-        image: [final]
+        image: [backend, frontend] # 👈 adapte ici selon tes cibles Docker
     steps:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v4
-
-      - name: 🔍 Debug GH_TOKEN
-        run: |
-          echo "GH_TOKEN length: ${#GH_TOKEN}"
-          if [ -z "${GH_TOKEN}" ]; then
-            echo "❌ GH_TOKEN is empty"
-            exit 1
-          else
-            echo "✅ GH_TOKEN is set"
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: 🧑‍💻 Log in to the Container registry
         uses: docker/login-action@v3
@@ -71,8 +59,9 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: 🔑 Test SSH connection
-        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo Connection OK"
-        
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo '✅ SSH connection OK'"
+
       - name: 📑 Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
         with:
@@ -100,7 +89,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
           script: |
-            cd
+            cd ~
             docker pull ghcr.io/${{ github.repository }}-backend:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
             docker pull ghcr.io/${{ github.repository }}-frontend:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
             docker compose up -d
