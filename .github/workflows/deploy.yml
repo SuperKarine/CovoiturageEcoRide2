@@ -84,8 +84,12 @@ jobs:
             echo 'echo Connection OK' >> /tmp/test_connection.sh &&
             chmod +x /tmp/test_connection.sh
           "
-      - name: 🔑 Test SSH connection (silent mode)
-        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "/bin/sh -s" < /dev/null
+      - name: 🔑 Test SSH connection (ignore all system messages)
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
+            exec 2>/dev/null;
+            /bin/echo 'Connection OK';
+          "
         
       - name: 📑 Copy docker-compose.yml to serve
         uses: appleboy/scp-action@master
