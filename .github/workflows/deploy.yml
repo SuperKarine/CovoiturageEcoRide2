@@ -18,18 +18,6 @@ jobs:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🔍 Debug GH_TOKEN
-        run: |
-          echo "GH_TOKEN length: ${#GH_TOKEN}"
-          if [ -z "${GH_TOKEN}" ]; then
-            echo "❌ GH_TOKEN is empty"
-            exit 1
-          else
-            echo "✅ GH_TOKEN is set"
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
       - name: 🧑‍💻 Log in to the Container registry
         uses: docker/login-action@v3
         with:
@@ -49,7 +37,7 @@ jobs:
         with:
           context: .
           push: true
-          target: final # <--- IMPORTANT : correspond au stage de ton Dockerfile
+          target: final
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
@@ -60,61 +48,51 @@ jobs:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🔑 Decode SSH key and configure
+      - name: 🔑 Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          rm -f ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_COVOITURAGEECORIDE2_B64 }}" | base64 -d > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh
+          echo "${{ secrets.SSH_COVOITURAGEECORIDE2 }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
 
-      - name: 🔄 Check if reboot is required and reboot
+      - name: 🔄 Check and reboot if required
         run: |
-          if ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "[ -f /var/run/reboot-required ]"; then
+          if ssh -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "[ -f /var/run/reboot-required ]"; then
             echo "Reboot required, rebooting the server..."
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo reboot"
-            sleep 120  # Attendre 2 minutes pour le redémarrage
+            ssh -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo reboot"
+            sleep 120
           else
             echo "No reboot required."
-          fi 
+          fi
 
-      - name: 📜 Create a test script on the server
+      - name: 📜 Create test script 
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
-            echo '#!/bin/sh' > /tmp/test_connection.sh &&
-            echo 'echo Connection OK' >> /tmp/test_connection.sh &&
+          ssh -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
+            echo '#!/bin/sh' > /tmp/test_connection.sh
+            echo 'echo Connection OK' >> /tmp/test_connection.sh
             chmod +x /tmp/test_connection.sh
           "
-      - name: 🔑 Test SSH connection
-        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "exit 0"
-        
-      - name: 📑 Copy docker-compose.yml to serve
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
-          source: ./docker-compose.yml
-          target: ~/
+
+      - name: 📑 Copy docker-compose.yml
+        run: scp -i ~/.ssh/id_rsa ./docker-compose.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:~/
 
   deploy:
     runs-on: ubuntu-latest
     needs: copy-docker-compose
     steps:
-      - name: 🔑 Decode SSH key and configure
+      - name: 🔑 Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          rm -f ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_COVOITURAGEECORIDE2_B64 }}" | base64 -d > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh
+          echo "${{ secrets.SSH_COVOITURAGEECORIDE2 }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
 
-      - name: 🚀 Deploy image to server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
-          script: |
-            cd
+      - name: 🚀 Deploy to server
+        run: |
+          ssh -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
             docker pull ghcr.io/${{ github.repository }}-final:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
             docker compose up -d
             docker image prune -f
+          "
