@@ -67,9 +67,10 @@ jobs:
           echo "${{ secrets.SSH_COVOITURAGEECORIDE2_B64 }}" | base64 -d > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      - name: 🔑 Test SSH connection
-        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo Connection OK"
-        
+      - name: 🔑 Test SSH connection 
+        run: |
+          ssh -v -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo Connection OK"
+
       - name: 📑 Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
         with:
