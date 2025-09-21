@@ -1,4 +1,4 @@
-name: Build, push, and deploy Docker images to the server
+name: Build, push, and deploy Docker image to the server
 
 on:
   push:
@@ -9,17 +9,26 @@ env:
   DOCKER_IMAGE_PRODUCTION_TAG: production
 
 jobs:
-  build-and-push-images:
+  build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    strategy:
-      matrix:
-        image: [backend, frontend] # 👈 adapte ici selon tes cibles Docker
     steps:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v4
+
+      - name: 🔍 Debug GH_TOKEN
+        run: |
+          echo "GH_TOKEN length: ${#GH_TOKEN}"
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "❌ GH_TOKEN is empty"
+            exit 1
+          else
+            echo "✅ GH_TOKEN is set"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: 🧑‍💻 Log in to the Container registry
         uses: docker/login-action@v3
@@ -28,25 +37,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
 
-      - name: ⬆️ Extract metadata for ${{ matrix.image }}
+      - name: ⬆️ Extract metadata for final image
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.image }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}-final
           tags: ${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
 
-      - name: 🐳 Build and push ${{ matrix.image }} image
+      - name: 🐳 Build and push final image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          target: ${{ matrix.image }}
+          target: final # <--- IMPORTANT : correspond au stage de ton Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
   copy-docker-compose:
     runs-on: ubuntu-latest
-    needs: build-and-push-images
+    needs: build-and-push-image
     steps:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v4
@@ -60,7 +69,7 @@ jobs:
 
       - name: 🔑 Test SSH connection
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo '✅ SSH connection OK'"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo Connection OK"
 
       - name: 📑 Copy docker-compose.yml to server
         uses: appleboy/scp-action@master
@@ -82,15 +91,14 @@ jobs:
           echo "${{ secrets.SSH_COVOITURAGEECORIDE2_B64 }}" | base64 -d > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      - name: 🚀 Deploy images to server
+      - name: 🚀 Deploy image to server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
           script: |
-            cd ~
-            docker pull ghcr.io/${{ github.repository }}-backend:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
-            docker pull ghcr.io/${{ github.repository }}-frontend:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
+            cd
+            docker pull ghcr.io/${{ github.repository }}-final:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
             docker compose up -d
             docker image prune -f
