@@ -48,70 +48,52 @@ jobs:
       - name: ⬇️ Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🔑 Setup SSH key properly
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          # Écriture de la clé SSH
-          echo "${{ secrets.SSH_COVOITURAGEECORIDE2 }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          
-          ssh-keyscan -H ${{ secrets.VPS_IP }} > ~/.ssh/known_hosts 2>/dev/null
-          chmod 600 ~/.ssh/known_hosts
-          
-          # Vérification de la clé 
-          echo "=== SSH Key Info ==="
-          head -1 ~/.ssh/id_rsa
-          echo "=== Known Hosts ==="
-          cat ~/.ssh/known_hosts
+      - name: 📑 Copy docker-compose.yml to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
+          source: docker-compose.yml
+          target: ~/
+          strip_components: 1
 
-      - name: 🔄 Check and reboot if required 
-        run: |
-          if ssh -T -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "[ -f /var/run/reboot-required ]"; then
-            echo "Reboot required, rebooting the server..."
-            ssh -T -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "sudo reboot"
-            echo "Waiting 2 minutes for reboot..."
-            sleep 120
-          else
-            echo "No reboot required."
-          fi
-
-      - name: 📜 Create test script 
-        run: |
-          ssh -T -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-            echo '#!/bin/sh' > /tmp/test_connection.sh
-            echo 'echo Connection OK' >> /tmp/test_connection.sh
-            chmod +x /tmp/test_connection.sh
-            echo "Test script created successfully"
-          EOF
-
-      - name: 📑 Copy docker-compose.yml with SCP
-        run: |
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/known_hosts ./docker-compose.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }}:~/
-          echo "docker-compose.yml copied successfully"
+      - name: 🔄 Check and handle reboot if needed
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
+          script: |
+            if [ -f /var/run/reboot-required ]; then
+              echo "🔄 Reboot required, rebooting server..."
+              sudo reboot
+            else
+              echo "✅ No reboot required"
+            fi
 
   deploy:
     runs-on: ubuntu-latest
     needs: copy-docker-compose
     steps:
-      - name: 🔑 Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          echo "${{ secrets.SSH_COVOITURAGEECORIDE2 }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.VPS_IP }} > ~/.ssh/known_hosts 2>/dev/null
+      - name: ⏳ Wait for server reboot if needed
+        run: sleep 120
 
-      - name: 🚀 Deploy to server 
-        run: |
-          ssh -T -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-            echo "Pulling latest Docker image..."
-            docker pull ghcr.io/${{ github.repository }}-final:${{ env.DOCKER_IMAGE_PRODUCTION_TAG }}
-            echo "Stopping existing containers..."
+      - name: 🚀 Deploy application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_COVOITURAGEECORIDE2 }}
+          script: |
+            echo "🐳 Pulling latest Docker image..."
+            docker pull ghcr.io/${{ github.repository }}-final:production
+            echo "🛑 Stopping existing containers..."
             docker compose down
-            echo "Starting new containers..."
+            echo "🚀 Starting new containers..."
             docker compose up -d
-            echo "Cleaning up unused images..."
+            echo "🧹 Cleaning up unused images..."
             docker image prune -f
-            echo "Deployment completed successfully!"
-          EOF
+            echo "📦 Checking running containers:"
+            docker ps
+            echo "✅ Deployment completed successfully!"
