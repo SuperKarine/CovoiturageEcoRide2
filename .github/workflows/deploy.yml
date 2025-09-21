@@ -78,10 +78,7 @@ jobs:
           fi 
 
       - name: 🔑 Test SSH connection
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "
-            echo 'Connection OK' || echo 'Connection failed, but SSH works'
-          "
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.VPS_USER }}@${{ secrets.VPS_IP }} "echo Connection OK"
         
       - name: 📑 Copy docker-compose.yml to serve
         uses: appleboy/scp-action@master
