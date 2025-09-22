@@ -1,22 +1,17 @@
-<footer>
+</main>
 
-<h2>footer</h2>
 
-<div class="card text-center">
-  <div class="card-header">
-    Featured
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-  <div class="card-footer text-body-secondary">
-    2 days ago
-  </div>
+
+<footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="accueil.php" class="nav-link px-2 text-muted">Accueil</a></li>
+        <li class="nav-item"><a href="apropos.php" class="nav-link px-2 text-muted">A propos</a></li>
+        <li class="nav-item"><a href="mentions-legales.html" class="nav-link px-2 text-muted">Mentions légales</a></li>
+        
+    <p class="text-center text-muted">© 2024 Company, Ipp</p>
+</footer>
+
 </div>
-
-
 
 
 

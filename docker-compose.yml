@@ -1,3 +1,4 @@
+
 services:
   traefik:
     image: traefik:v3.3
@@ -16,17 +17,16 @@ services:
       - web
 
   server:
-    image: ghcr.io/SuperKarine/projetbook-final:production
+    image: ghcr.io/superkarine/covoiturageecoride2-final:production
     env_file:
       - .env
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - web
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`app.localhost`)"
+      - "traefik.http.routers.app.rule=Host(`app.localhost`) || Host(`localhost`)"
       - "traefik.http.routers.app.entrypoints=web"
       - "traefik.http.services.app.loadbalancer.server.port=80"
 
