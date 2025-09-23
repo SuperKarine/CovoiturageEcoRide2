@@ -1,4 +1,6 @@
 RewriteEngine On
 RewriteBase /
 
-RewriteRule ^ index.php [QSA,L]
+# Rediriger toutes les requêtes vers le dossier public
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ public/$1 [L]
