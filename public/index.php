@@ -12,7 +12,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 // On définit une constante pour avoir le chemin racine de l'app
 define('APP_ROOT', realpath(__DIR__ . '/..'));
-define('APP_ENV', ".env.local");
+define('APP_ENV', ".env.example");
 
 use App\Controller\PageController;
 use App\Routing\Router;
