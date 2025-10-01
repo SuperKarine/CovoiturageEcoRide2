@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
-Class PageController extends Controller
+use App\Controller\Controller;
+
+class PageController extends Controller
 {
     public function accueil(): void
     {
@@ -13,13 +15,6 @@ Class PageController extends Controller
     {
         $this->render('page/apropos');
     }
-
-   
-
-
-
-
-
-
-
+    
+    
 }
