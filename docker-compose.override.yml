@@ -1,0 +1,6 @@
+
+services:
+  app:
+    ports:
+      - "80:80"
+    
