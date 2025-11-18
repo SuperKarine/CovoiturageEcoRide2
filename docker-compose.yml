@@ -1,23 +1,26 @@
 services:
-  traefik:
-    image: traefik:v3.3
-    container_name: traefik
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    networks:
-      - web
+  #traefik:
+   # image: traefik:v3.3
+    #container_name: traefik
+    #command:
+     # - "--api.insecure=true"
+      #- "--providers.docker=true"
+      #- "--providers.docker.exposedbydefault=false"
+     # - "--entrypoints.web.address=:80"
+    #ports:
+     # - "80:80"
+     # - "8080:8080"
+    #volumes:
+     # - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    #networks:
+    #  - web
 
   server:
     build:
       context: .
+    container_name: ecoride-server
+    ports:
+     - "8000:80"  # Enlever ce port en phase de prod
     volumes:
       - .:/var/www/html
     env_file:
@@ -27,20 +30,24 @@ services:
         condition: service_healthy
     networks:
       - web
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`app.localhost`)"
-      - "traefik.http.routers.app.entrypoints=web"
-      - "traefik.http.services.app.loadbalancer.server.port=80"
+    #labels:
+     # - "traefik.enable=true"
+      #- "traefik.http.routers.ecoride.rule=Host(`ecoride-hauts-de-france.site`)"
+      #- "traefik.http.routers.ecoride.entrypoints=web"
+      #- "traefik.http.services.ecoride.loadbalancer.server.port=80"
 
   db:
     image: mariadb:10.11
+    container_name: ecoride-db
     restart: always
-    #user: root
-    env_file:
-      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
     volumes:
-      - db-data:/var/lib/mysql
+      - ecoride-db-data:/var/lib/mysql
     expose:
       - "3306"
     healthcheck:
@@ -51,56 +58,24 @@ services:
     networks:
       - web
 
-  phpmyadmin:
-    image: phpmyadmin
-    depends_on:
-      - db
-    environment:
-      - PMA_HOST=db
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.pma.rule=Host(`pma.localhost`)"
-      - "traefik.http.routers.pma.entrypoints=web"
-      - "traefik.http.services.pma.loadbalancer.server.port=80"
-    networks:
-      - web
-
   mongo:
     image: mongo
-    restart: always
-    env_file:
-      - .env
+    container_name: ecoride-mongo
+    restart: always  
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ecoride-mongo-data:/data/db
     expose:
       - "27017"
     networks:
       - web
 
-  mongo-express:
-    image: mongo-express
-    restart: always
-    env_file:
-      - .env
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      ME_CONFIG_MONGODB_SERVER: mongo
-    depends_on:
-      mongo:
-        condition: service_started
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.mongoex.rule=Host(`mongo.localhost`)"
-      - "traefik.http.routers.mongoex.entrypoints=web"
-      - "traefik.http.services.mongoex.loadbalancer.server.port=8081"
-    networks:
-      - web
-
 volumes:
-  db-data:
+  ecoride-db-data:
+  ecoride-mongo-data:
 
 networks:
   web:
-    external: false
+    external: false  # pour la prod mettre external: true

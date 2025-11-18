@@ -1,6 +1,6 @@
 .env
 .env.local
-backup.sql
+backup_ecoride_actuel.sql
 .DS_Store
 src/.DS_Store
 tests.php

@@ -1,0 +1,308 @@
+<?php
+
+namespace App\Entity;
+
+use DateTime;
+
+class Chauffeurs extends Utilisateurs
+{
+    /**
+     * @var integer $id_chauffeurs     l'idententifiant du chauffeur en auto incrémente
+     */
+    protected int $id_chauffeurs;
+
+    /**
+     * @var FLOAT $moyenne_note_chauffeur   la moyenne des notes du chauffeur
+     */
+    protected FLOAT $moyenne_note_chauffeur;
+
+    /**
+     * @var string  $plaque_immatruculation          Numéro de la plaque d'immatriculation
+     */
+    protected string $plaque_immatriculation;
+
+    /**
+     * @var DateTime $date_1_mise_circulation     Date de la 1ère mise en circulation
+     */
+    protected DateTime $date_1_mise_circulation;
+
+    /**
+     * @var string  $modele     le modèle du véhicule
+     */
+    protected string $modele;
+
+    /**
+     * @var string $couleur       la couleur du véhicule
+     */
+    protected string $couleur;
+
+    /**
+     * @var string $marque       la marque du véhicule
+     */
+    protected string $marque;
+
+    /**
+     * @var boolean  $animal      Est-ce que le chauffeur prend des animaux
+     */
+    protected bool $animal;
+
+    /**
+     * @var boolean  $fumeur         Est-ce que le chauffeur transporte des fumeurs
+     */
+    protected bool $fumeur;
+
+    /**
+     * @var string  $preferences  Pour préciser si besoin des choses particulières
+     */
+    protected string $preferences;
+
+
+    /**
+     * Chauffeurs constructor 
+     */
+    public function __construct(
+        int $id_chauffeurs,
+        FLOAT $moyenne_note_chauffeur,
+        string $plaque_immatriculation,
+        DateTime $date_1_mise_circulation,
+        string $modele,
+        string $couleur,
+        string $marque,
+        bool $animal,
+        bool $fumeur,
+        string $preferences
+    )
+    { 
+         $this->id_chauffeurs = $id_chauffeurs;
+         $this->moyenne_note_chauffeur = $moyenne_note_chauffeur;
+         $this->plaque_immatriculation = $plaque_immatriculation;
+         $this->date_1_mise_circulation = $date_1_mise_circulation;
+         $this->modele = $modele;
+         $this->couleur = $couleur;
+         $this->marque = $marque;
+         $this->animal = $animal;
+         $this->fumeur = $fumeur;
+         $this->preferences = $preferences;
+
+    }
+
+
+    /**
+     * Récupère l'id du chauffeur
+     *
+     * @return id_chauffeurs
+     */
+    public function getId_chauffeurs()
+    {
+        return $this->id_chauffeurs;
+    }
+
+    /**
+     * Récupère la moyenne des notes chauffeur
+     *
+     * @return moyenne_note_chauffeur
+     */
+    public function getMoyenne_note_chauffeur()
+    {
+        return $this->moyenne_note_chauffeur;
+    }
+
+    /**
+     * Modifie/Affecte  la moyenne de la note chauffeur
+     *
+     * @param float $moyenne_note_chauffeur
+     * @return moyenne_note_chauffeur
+     */
+    public function setMoyenne_note_chauffeur($moyenne_note_chauffeur)
+    {
+        $this->moyenne_note_chauffeur = $moyenne_note_chauffeur;
+
+        return $this;
+    }
+
+    /**
+     * Récupère la plaque d'immatriculation
+     *
+     * @return plaque_immatriculation
+     */
+    public function getPlaque_immatriculation()
+    {
+        return $this->plaque_immatriculation;
+    }
+
+    /**
+     * Modifie/Affecte la plaque d'immatriculation
+     *
+     * @param  string $plaque_immatriculation
+     * @return plaque_immatriculation
+     */
+    public function setPlaque_immatriculation($plaque_immatriculation)
+    {
+        $this->plaque_immatriculation = $plaque_immatriculation;
+
+        return $this;
+    }
+
+    /**
+     * Récupère la date de la 1ère mise en circulation
+     *
+     * @return date_1_mise_circulation
+     */
+    public function getDate_1_mise_circulation()
+    {
+        return $this->date_1_mise_circulation;
+    }
+
+    /**
+     * Modifie/Affecte  la date de la 1ère mise en circulation
+     *
+     * @param DateTime $date_1_mise_circulation
+     * @return date_1_mise_circulation
+     */
+    public function setDate_1_mise_circulation($date_1_mise_circulation)
+    {
+        $this->date_1_mise_circulation = $date_1_mise_circulation;
+
+        return $this;
+    }
+
+    /**
+     * Récupère le modèle de la voiture
+     *
+     * @return modele
+     */
+    public function getModele()
+    {
+        return $this->modele;
+    }
+
+    /**
+     * Modifie/Affecte  le modèle de la voiture
+     *
+     * @param string $modele
+     * @return modele
+     */
+    public function setModele($modele)
+    {
+        $this->modele = $modele;
+
+        return $this;
+    }
+
+    /**
+     * Récupère la couleur de la voiture
+     *
+     * @return couleur
+     */
+    public function getCouleur()
+    {
+        return $this->couleur;
+    }
+
+    /**
+     * Modifie/Affecte la couleur de la voiture
+     *
+     * @param string $couleur
+     * @return couleur
+     */
+    public function setCouleur($couleur)
+    {
+        $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    /**
+     * Récupère la marque de la voiture
+     *
+     * @return marque
+     */
+    public function getMarque()
+    {
+        return $this->marque;
+    }
+
+    /**
+     * Modifie/Affecte  la marque de la voiture
+     *
+     * @param string $marque
+     * @return marque
+     */
+    public function setMarque($marque)
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * Récupère le bool de animal
+     *
+     * @return bool
+     */
+    public function getAnimal()
+    {
+        return $this->animal;
+    }
+
+    /**
+     * Modifie/Affecte  le bool de animal
+     *
+     * @param bool $animal
+     * @return bool
+     */
+    public function setAnimal($animal)
+    {
+        $this->animal = $animal;
+
+        return $this;
+    }
+
+    /**
+     * Récupère le bool de fumeur
+     *
+     * @return bool
+     */
+    public function getFumeur()
+    {
+        return $this->fumeur;
+    }
+
+    /**
+     * Modifie/Affecte  le bool de fumeur
+     *
+     * @param bool $fumeur
+     * @return bool
+     */
+    public function setFumeur($fumeur)
+    {
+        $this->fumeur = $fumeur;
+
+        return $this;
+    }
+
+    /**
+     * Récupère les préférences s'il y en a du chauffeur
+     *
+     * @return preferences
+     */
+    public function getPreferences()
+    {
+        return $this->preferences;
+    }
+
+    /**
+     * Modifie/Affecte  les préférences du chauffeur s'il y en a
+     *
+     * @param string $preferences
+     * @return preferences
+     */
+    public function setPreferences($preferences)
+    {
+        $this->preferences = $preferences;
+
+        return $this;
+    }
+
+    
+}

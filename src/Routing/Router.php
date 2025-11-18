@@ -18,9 +18,13 @@ class Router
     {
         try {
             $path = $this->normalizePath($uri);
-            
+        
+            echo "<!-- Debug: URI = '$uri' -->";
+            echo "<!-- Debug: Path normalisé = '$path' -->";
+            echo "<!-- Debug: Routes disponibles = " . implode(', ', array_keys($this->routes)) . " -->";
+        
             if (!isset($this->routes[$path])) {
-                throw new Exception("La route n'existe pas");
+                throw new Exception("La route '$path' n'existe pas. Routes disponibles: " . implode(', ', array_keys($this->routes)));
             }
             $route = $this->routes[$path];
 
@@ -39,15 +43,23 @@ class Router
             $errorController = new ErrorController();
             $errorController->show($e->getMessage());
         }
-    }
+}
 
-    public static function normalizePath(string $uri):string
+    public static function normalizePath(string $uri): string
     {
-        $path = parse_url($uri, PHP_URL_PATH);
-        $path = '/' . ltrim(rtrim($path, "/"), '/');
-        return $path === '/'? '/' : $path;
+    $path = parse_url($uri, PHP_URL_PATH);
+    $path = rtrim($path, "/");
+    
+    if (empty($path)) {
+        return '/';
     }
-
+    
+    if ($path[0] !== '/') {
+        $path = '/' . $path;
+    }
+    
+    return $path;
+    }
     
 }
 

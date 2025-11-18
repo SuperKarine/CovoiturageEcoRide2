@@ -1,14 +1,17 @@
 <?php require_once APP_ROOT . "/public/templates/layout/header.php" ?>
 
+<main>
 
 
 
 
 
-<h1>A propos</h1>
 
 
 
-    
+
+
+
+
 
 <?php require_once APP_ROOT . "/public/templates/layout/footer.php" ?>

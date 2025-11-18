@@ -35,7 +35,7 @@ class Mysql
     {
         if (is_null($this->pdo)) {
             $this->pdo = new \PDO("mysql:dbname={$this->dbName};
-            charset=utf8;host={$this->dbHost}:{$this->dbPort}",
+            charset=utf8;host={$this->dbHost};port={$this->dbPort}",
             $this->dbUser, $this->dbPassword);
         }
         return $this->pdo;

@@ -16,5 +16,34 @@ class PageController extends Controller
         $this->render('page/apropos');
     }
     
-    
+    public function connexion(): void
+    {
+        $this->render('page/connexion');
+    }
+
+    public function inscription(): void
+    {
+        $this->render('page/inscription');
+    }
+
+    public function Propose_trajet_chauffeurs(): void
+    {
+        $this->render('page/Propose_trajet_chauffeurs');
+    }
+
+    public function reserver_trajet(): void
+    {
+        $this->render('page/reserver_trajet');
+    }
+
+    public function propose_trajet_passagers(): void
+    {
+        $this->render('page/propose_trajet_passagers');
+    }
+
+
+
+
+
+
 }

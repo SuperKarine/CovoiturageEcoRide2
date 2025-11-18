@@ -1,4 +1,4 @@
-<?php require_once APP_ROOT . "/public/templates/header.php" ?>
+<?php require_once APP_ROOT . "/public/templates/layout/header.php" ?>
 
 <div class="container py-3">
         <form action="" class="row g-3">
@@ -37,4 +37,4 @@
 
 
 
-<?php require_once APP_ROOT . "/public/templates/footer.php" ?>
+<?php require_once APP_ROOT . "/public/templates/layout/footer.php" ?>
