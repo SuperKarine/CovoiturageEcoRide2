@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Db\Mysql;
 
 
-class Repository
+abstract class Repository
 {
     protected \PDO $pdo;
 

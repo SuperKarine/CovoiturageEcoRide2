@@ -5,7 +5,7 @@ namespace App\Entity;
 use DateTime;
 
 
-class Reserver_trajet
+class ReserverTrajets
 {
     /**
      * @var integer $id_reserver_trajet  identifiant de reserver_trajet en auto incrémente

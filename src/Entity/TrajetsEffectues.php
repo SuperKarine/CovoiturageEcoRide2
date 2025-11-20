@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 
-class Trajets_effectues
+class TrajetsEffectues
 {
     /**
      * @var int   $id_trajets_effectues    l'identifiant en auto incrément des trajets effectuées

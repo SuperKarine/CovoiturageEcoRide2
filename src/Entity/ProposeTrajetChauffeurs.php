@@ -5,7 +5,7 @@ namespace App\Entity;
 use DateTime;
 
 
-class Propose_trajet_chauffeurs
+class ProposeTrajetChauffeurs
 {
     /**
      * @var int $num_trajet   identifiant de la table  Propose_trajet_chauffeurs en auto increment

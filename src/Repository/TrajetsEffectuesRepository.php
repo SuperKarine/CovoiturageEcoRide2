@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\Trajets;
+use App\Entity\TrajetsEffectues;
 
-class TrajetsRepository extends Repository
+class TrajetsEffectuesRepository extends Repository
 {
     public function __construct()
     {
