@@ -116,7 +116,7 @@ class TrajetsEffectues
      *
      * @return id_trajets_effectues
      */
-    public function getId_trajets_effectues()
+    public function getIdTrajetsEffectues()
     {
         return $this->id_trajets_effectues;
     }
@@ -126,7 +126,7 @@ class TrajetsEffectues
      *
      * @return pseudo_chauffeur
      */
-    public function getPseudo_chauffeur()
+    public function getPseudoChauffeur()
     {
         return $this->pseudo_chauffeur;
     }
@@ -137,7 +137,7 @@ class TrajetsEffectues
      * @param string $pseudo_chauffeur
      * @return pseudo_chauffeur
      */
-    public function setPseudo_chauffeur($pseudo_chauffeur)
+    public function setPseudoChauffeur($pseudo_chauffeur)
     {
         $this->pseudo_chauffeur = $pseudo_chauffeur;
 
@@ -149,7 +149,7 @@ class TrajetsEffectues
      *
      * @return email_chauffeur
      */
-    public function getEmail_chauffeur()
+    public function getEmailChauffeur()
     {
         return $this->email_chauffeur;
     }
@@ -160,7 +160,7 @@ class TrajetsEffectues
      * @param string $email_chauffeur
      * @return email_chauffeur
      */
-    public function setEmail_chauffeur($email_chauffeur)
+    public function setEmailchauffeur($email_chauffeur)
     {
         $this->email_chauffeur = $email_chauffeur;
 
@@ -172,7 +172,7 @@ class TrajetsEffectues
      *
      * @return note_chauffeur
      */
-    public function getNote_chauffeur()
+    public function getNoteChauffeur()
     {
         return $this->note_chauffeur;
     }
@@ -183,7 +183,7 @@ class TrajetsEffectues
      * @param float $note_chauffeur
      * @return note_chauffeur
      */
-    public function setNote_chauffeur($note_chauffeur)
+    public function setNoteChauffeur($note_chauffeur)
     {
         $this->note_chauffeur = $note_chauffeur;
 
@@ -195,7 +195,7 @@ class TrajetsEffectues
      *
      * @return date_note_chauffeur
      */
-    public function getDate_note_chauffeur()
+    public function getDateNoteChauffeur()
     {
         return $this->date_note_chauffeur;
     }
@@ -206,7 +206,7 @@ class TrajetsEffectues
      * @param DateTime $date_note_chauffeur
      * @return date_note_chauffeur
      */
-    public function setDate_note_chauffeur($date_note_chauffeur)
+    public function setDateNoteChauffeur($date_note_chauffeur)
     {
         $this->date_note_chauffeur = $date_note_chauffeur;
 
@@ -218,7 +218,7 @@ class TrajetsEffectues
      *
      * @return ville_depart
      */
-    public function getVille_depart()
+    public function getVilleDepart()
     {
         return $this->ville_depart;
     }
@@ -229,7 +229,7 @@ class TrajetsEffectues
      * @param string $ville_depart
      * @return ville_depart
      */
-    public function setVille_depart($ville_depart)
+    public function setVilleDepart($ville_depart)
     {
         $this->ville_depart = $ville_depart;
 
@@ -242,7 +242,7 @@ class TrajetsEffectues
      *
      * @return ville_arrivee
      */
-    public function getVille_arrivee()
+    public function getVilleArrivee()
     {
         return $this->ville_arrivee;
     }
@@ -253,7 +253,7 @@ class TrajetsEffectues
      * @param string $ville_arrivee
      * @return ville_arrivee
      */
-    public function setVille_arrivee($ville_arrivee)
+    public function setVilleArrivee($ville_arrivee)
     {
         $this->ville_arrivee = $ville_arrivee;
 
@@ -265,7 +265,7 @@ class TrajetsEffectues
      *
      * @return avis_trajet_passagers
      */
-    public function getAvis_trajet_passagers()
+    public function getAvisTrajetPassagers()
     {
         return $this->avis_trajet_passagers;
     }
@@ -276,7 +276,7 @@ class TrajetsEffectues
      * @param string $avis_trajet_passagers
      * @return avis_trajet_passagers
      */
-    public function setAvis_trajet_passagers($avis_trajet_passagers)
+    public function setAvisTrajetPassagers($avis_trajet_passagers)
     {
         $this->avis_trajet_passagers= $avis_trajet_passagers;
 
@@ -288,7 +288,7 @@ class TrajetsEffectues
      *
      * @return date_avis_trajet_passagers
      */
-    public function getDate_avis_trajet_passagers()
+    public function getDateAvisTrajetPassagers()
     {
         return $this->date_avis_trajet_passagers;
     }
@@ -299,7 +299,7 @@ class TrajetsEffectues
      * @param DateTime $date_avis_trajet_passagers
      * @return date_avis_trajet_passagers
      */
-    public function setDate_avis_trajet_passagers($date_avis_trajet_passagers)
+    public function setDateAvisTrajetPassagers($date_avis_trajet_passagers)
     {
         $this->date_avis_trajet_passagers = $date_avis_trajet_passagers;
 
@@ -311,7 +311,7 @@ class TrajetsEffectues
      *
      * @return prix_personne
      */
-    public function getPrix_personne()
+    public function getPrixPersonne()
     {
         return $this->prix_personne;
     }
@@ -322,7 +322,7 @@ class TrajetsEffectues
      * @param int $prix_personne
      * @return prix_personne
      */
-    public function setPrix_personne($prix_personne)
+    public function setPrixPersonne($prix_personne)
     {
         $this->prix_personne = $prix_personne;
 
@@ -334,7 +334,7 @@ class TrajetsEffectues
      *
      * @return bool
      */
-    public function getVoyage_ecologique()
+    public function getVoyageEcologique()
     {
         return $this->voyage_ecologique;
     }
@@ -345,7 +345,7 @@ class TrajetsEffectues
      * @param bool $voyage_ecologique
      * @return bool
      */
-    public function setVoyage_ecologique($voyage_ecologique)
+    public function setVoyageEcologique($voyage_ecologique)
     {
         $this->voyage_ecologique = $voyage_ecologique;
 
@@ -357,7 +357,7 @@ class TrajetsEffectues
      *
      * @return date_trajet
      */
-    public function getDate_trajet()
+    public function getDateTrajet()
     {
         return $this->date_trajet;
     }
@@ -368,7 +368,7 @@ class TrajetsEffectues
      * @param DateTime $date_trajet
      * @return date_trajet
      */
-    public function setDate_trajet($date_trajet)
+    public function setDateTrajet($date_trajet)
     {
         $this->date_trajet = $date_trajet;
 
@@ -380,7 +380,7 @@ class TrajetsEffectues
      *
      * @return total_trajet
      */
-    public function getTotal_trajet()
+    public function getTotalTrajet()
     {
         return $this->total_trajet;
     }
@@ -391,7 +391,7 @@ class TrajetsEffectues
      * @param float $total_trajet
      * @return total_trajet
      */
-    public function setTotal_trajet($total_trajet)
+    public function setTotalTrajet($total_trajet)
     {
         $this->total_trajet = $total_trajet;
 

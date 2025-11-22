@@ -14,10 +14,3 @@ $router->handleRequest($_SERVER["REQUEST_URI"]);
 
 
 
-/*
-use App\Controller\PageController;
-
-
-$pageController = new PageController();
-$pageController->home();
-*/

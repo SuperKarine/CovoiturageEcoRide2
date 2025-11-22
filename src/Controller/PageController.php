@@ -30,9 +30,16 @@ class PageController extends Controller
         $this->render('page/inscription');
     }
 
+
     public function Propose_trajet_chauffeurs(): void
     {
-        $this->render('page/Propose_trajet_chauffeurs');
+        $proposeTrajetChauffeursRepository = new ProposeTrajetChauffeursRepository();
+        $trajetsChauffeurs= $proposeTrajetChauffeursRepository->findAll();
+        
+    
+        $this->render('page/Propose_trajet_chauffeurs', [
+         'trajetsChauffeurs' => $trajetsChauffeurs
+       ]);
     }
 
     public function reserver_trajet(): void
@@ -70,14 +77,22 @@ class PageController extends Controller
         $this->render('page/covoiturage');
     }
 
-    public function essaie_trajets(): void
-{
-    $proposeTrajetChauffeursRepository = new ProposeTrajetChauffeursRepository();
-    $trajets_chauffeurs = $proposeTrajetChauffeursRepository->findAll();
+    /** 
+    *public function essaie_trajets(): void
+*{
+    *$proposeTrajetChauffeursRepository = new ProposeTrajetChauffeursRepository();
+    *$trajets_chauffeurs = $proposeTrajetChauffeursRepository->findAll();
     
-    $this->render('page/essaie_trajets', [
-        'trajets_chauffeurs' => $trajets_chauffeurs
-    ]);
+    *$this->render('page/essaie_trajets', [
+     *   'trajets_chauffeurs' => $trajets_chauffeurs
+    *]);
+    */
+
+    
+
+    
+
+    
 }
 
 
@@ -88,4 +103,3 @@ class PageController extends Controller
 
 
 
-}

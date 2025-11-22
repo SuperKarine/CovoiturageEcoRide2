@@ -41,7 +41,7 @@ class Retour
      *
      * @return id_retour
      */
-    public function getId_retour()
+    public function getIdRetour()
     {
         return $this->id_retour;
     }
@@ -51,7 +51,7 @@ class Retour
      *
      * @return ville_retour
      */
-    public function getVille_retour()
+    public function getVilleRetour()
     {
         return $this->ville_retour;
     }
@@ -62,7 +62,7 @@ class Retour
      * @param string $ville_retour
      * @return ville_retour
      */
-    public function setVille_retour($ville_retour)
+    public function setVilleRetour($ville_retour)
     {
         $this->ville_retour = $ville_retour;
 
@@ -74,7 +74,7 @@ class Retour
      *
      * @return id_villes
      */
-    public function getId_villes()
+    public function getIdVilles()
     {
         return $this->id_villes;
     }

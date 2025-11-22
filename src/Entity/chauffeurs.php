@@ -12,9 +12,9 @@ class Chauffeurs extends Utilisateurs
     protected int $id_chauffeurs;
 
     /**
-     * @var FLOAT $moyenne_note_chauffeur   la moyenne des notes du chauffeur
+     * @var float $moyenne_note_chauffeur   la moyenne des notes du chauffeur
      */
-    protected FLOAT $moyenne_note_chauffeur;
+    protected float $moyenne_note_chauffeur;
 
     /**
      * @var string  $plaque_immatruculation          Numéro de la plaque d'immatriculation
@@ -61,8 +61,23 @@ class Chauffeurs extends Utilisateurs
      * Chauffeurs constructor 
      */
     public function __construct(
+
+
+         // paramètres pour la classe parente Utilisateurs
+
+         string $nom,
+         string $prenom,
+         string $pseudo,
+         string $email,
+         string $mot_de_passe,
+         DateTime $date_naissance,
+         string $telephone,
+         bool $isChauffeur,
+
+         //Paramètre de Chauffeurs
+
         int $id_chauffeurs,
-        FLOAT $moyenne_note_chauffeur,
+        float $moyenne_note_chauffeur,
         string $plaque_immatriculation,
         DateTime $date_1_mise_circulation,
         string $modele,
@@ -71,8 +86,15 @@ class Chauffeurs extends Utilisateurs
         bool $animal,
         bool $fumeur,
         string $preferences
+
+       
     )
     { 
+        // Appel du constructeur parent Utilisateurs
+        
+        parent::__construct($nom, $prenom, $pseudo, $email, $mot_de_passe, $date_naissance, $telephone, $isChauffeur);
+
+        //Initialisation des propriétés de Chauffeurs
          $this->id_chauffeurs = $id_chauffeurs;
          $this->moyenne_note_chauffeur = $moyenne_note_chauffeur;
          $this->plaque_immatriculation = $plaque_immatriculation;
@@ -84,6 +106,8 @@ class Chauffeurs extends Utilisateurs
          $this->fumeur = $fumeur;
          $this->preferences = $preferences;
 
+        
+
     }
 
 
@@ -92,7 +116,7 @@ class Chauffeurs extends Utilisateurs
      *
      * @return id_chauffeurs
      */
-    public function getId_chauffeurs()
+    public function getIdChauffeurs()
     {
         return $this->id_chauffeurs;
     }
@@ -102,7 +126,7 @@ class Chauffeurs extends Utilisateurs
      *
      * @return moyenne_note_chauffeur
      */
-    public function getMoyenne_note_chauffeur()
+    public function getMoyenneNoteChauffeur()
     {
         return $this->moyenne_note_chauffeur;
     }
@@ -113,7 +137,7 @@ class Chauffeurs extends Utilisateurs
      * @param float $moyenne_note_chauffeur
      * @return moyenne_note_chauffeur
      */
-    public function setMoyenne_note_chauffeur($moyenne_note_chauffeur)
+    public function setMoyenneNoteChauffeur($moyenne_note_chauffeur)
     {
         $this->moyenne_note_chauffeur = $moyenne_note_chauffeur;
 
@@ -125,7 +149,7 @@ class Chauffeurs extends Utilisateurs
      *
      * @return plaque_immatriculation
      */
-    public function getPlaque_immatriculation()
+    public function getPlaqueImmatriculation()
     {
         return $this->plaque_immatriculation;
     }
@@ -136,7 +160,7 @@ class Chauffeurs extends Utilisateurs
      * @param  string $plaque_immatriculation
      * @return plaque_immatriculation
      */
-    public function setPlaque_immatriculation($plaque_immatriculation)
+    public function setPlaqueImmatriculation($plaque_immatriculation)
     {
         $this->plaque_immatriculation = $plaque_immatriculation;
 
@@ -148,7 +172,7 @@ class Chauffeurs extends Utilisateurs
      *
      * @return date_1_mise_circulation
      */
-    public function getDate_1_mise_circulation()
+    public function getDate1MiseCirculation()
     {
         return $this->date_1_mise_circulation;
     }
@@ -159,7 +183,7 @@ class Chauffeurs extends Utilisateurs
      * @param DateTime $date_1_mise_circulation
      * @return date_1_mise_circulation
      */
-    public function setDate_1_mise_circulation($date_1_mise_circulation)
+    public function setDate1MiseCirculation($date_1_mise_circulation)
     {
         $this->date_1_mise_circulation = $date_1_mise_circulation;
 

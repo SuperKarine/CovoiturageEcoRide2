@@ -71,7 +71,7 @@ Class Voitures
      *
      * @return  string
      */ 
-    public function getPlaque_immatriculation()
+    public function getPlaqueImmatriculation()
     {
         return $this->plaque_immatriculation;
     }
@@ -83,7 +83,7 @@ Class Voitures
      *
      * @return  plaque_immatriculation
      */ 
-    public function setPlaque_immatriculation(string $plaque_immatriculation)
+    public function setPlaqueImmatriculation(string $plaque_immatriculation)
     {
         $this->plaque_immatriculation = $plaque_immatriculation;
 
@@ -95,7 +95,7 @@ Class Voitures
      *
      * @return  DateTime
      */ 
-    public function getDate_1_mise_en_circulation()
+    public function getDate1MiseEnCirculation()
     {
         return $this->date_1_mise_en_circulation;
     }
@@ -107,7 +107,7 @@ Class Voitures
      *
      * @return  date_1_mise_en_circulation
      */ 
-    public function setDate_1_mise_en_circulation(DateTime $date_1_mise_en_circulation)
+    public function setDate1MiseEnCirculation(DateTime $date_1_mise_en_circulation)
     {
         $this->date_1_mise_en_circulation = $date_1_mise_en_circulation;
 
@@ -215,22 +215,10 @@ Class Voitures
      *
      * @return  integer id_voitures
      */ 
-    public function getId_voitures()
+    public function getIdVoitures()
     {
         return $this->id_voitures;
     }
 
-    /**
-     * Set id_voitures identifiant en auto incremente      Modifie
-     *
-     * @param  integer  $id_voitures  
-     *
-     * @return  id_voitures
-     */ 
-    public function setId_voitures($id_voitures)
-    {
-        $this->id_voitures = $id_voitures;
-
-        return $this;
-    }
+    
 }

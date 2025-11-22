@@ -39,7 +39,7 @@ class Aller
      *
      * @return id_aller
      */
-    public function getId_aller()
+    public function getIdAller()
     {
         return $this->id_aller;
     }
@@ -49,7 +49,7 @@ class Aller
      *
      * @return ville_aller
      */
-    public function getVille_aller()
+    public function getVilleAller()
     {
         return $this->ville_aller;
     }
@@ -60,7 +60,7 @@ class Aller
      * @param string $ville_aller
      * @return ville_aller
      */
-    public function setVille_aller($ville_aller)
+    public function setVilleAller($ville_aller)
     {
         $this->ville_aller = $ville_aller;
 
@@ -72,7 +72,7 @@ class Aller
      *
      * @return id_villes
      */
-    public function getId_villes()
+    public function getIdVilles()
     {
         return $this->id_villes;
     }

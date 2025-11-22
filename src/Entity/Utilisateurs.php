@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 
-abstract class Utilisateurs
+class Utilisateurs
 {
 
     /**
@@ -156,7 +156,7 @@ abstract class Utilisateurs
      *
      * @return integer get_id_utilisateurs             identifiant de l'utilisateur en auto incrémente
      */
-    public function getId_utilisateurs()
+    public function getIdUtilisateurs()
     {
         return $this->id_utilisateurs;
     }
@@ -301,7 +301,7 @@ abstract class Utilisateurs
      *
      * @return date_credit
      */
-    public function getDate_credit ()
+    public function getDateCredit ()
     {
         return $this->date_credit;
     }
@@ -312,7 +312,7 @@ abstract class Utilisateurs
      * @param int $date_credit
      * @return $date_credit
      */
-    public function setDate_credit($date_credit)
+    public function setDateCredit($date_credit)
     {
         $this->date_credit = $date_credit;
 
@@ -347,7 +347,7 @@ abstract class Utilisateurs
      *
      * @return date_debit
      */
-    public function getDate_debit ()
+    public function getDateDebit ()
     {
         return $this->date_debit;
     }
@@ -358,7 +358,7 @@ abstract class Utilisateurs
      * @param int $date_debit
      * @return $date_debit
      */
-    public function setdate_debit($date_debit)
+    public function setDateDebit($date_debit)
     {
         $this->date_debit = $date_debit;
 

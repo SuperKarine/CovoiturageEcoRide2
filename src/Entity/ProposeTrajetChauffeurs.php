@@ -13,24 +13,14 @@ class ProposeTrajetChauffeurs
     private int $num_trajet;
 
     /**
-     * @var DateTime $date_arrivee     La date d'arrivée
+     * @var DateTime $date_heure_arrivee     La date et l'heure d'arrivée
      */
-    private DateTime $date_arrivee;
+    private DateTime $date_heure_arrivee;
 
     /**
-     * @var DateTime $date_depart     La date de départ
+     * @var DateTime $date_heure_depart     La date et l'heure de départ
      */
-    private DateTime $date_depart;
-
-    /**
-     * @var DateTime $heure_depart L'heure de départ
-     */
-    private DateTime $heure_depart;
-
-    /**
-     * @var DateTime $heure_arrivee      L'heure d'arrivée
-     */
-    private DateTime $heure_arrivee;
+    private DateTime $date_heure_depart;
 
     /**
      * @var string $ville_depart      La ville de départ
@@ -82,7 +72,12 @@ class ProposeTrajetChauffeurs
      * @var string $information_sup           Les éventuelles informations supplémentaires du chauffeur
      */
     private string $information_sup;
-    
+
+    /**
+     * @var bool $voyage_ecologique           Retourne un bool 
+     */
+    private bool $voyage_ecologique;
+
 
     /**
      * Propose_trajet_chauffeurs
@@ -90,10 +85,8 @@ class ProposeTrajetChauffeurs
      */
     public function __construct(
         int $num_trajet,
-        DateTime $date_arrivee,
-        DateTime $date_depart,
-        DateTime $heure_depart,
-        DateTime $heure_arrivee,
+        DateTime $date_heure_arrivee,
+        DateTime $date_heure_depart,
         string $ville_depart,
         string $ville_arrivee,
         string $pseudo_chauffeur,
@@ -103,25 +96,25 @@ class ProposeTrajetChauffeurs
         int $nbr_place_trajet,
         int $prix_personne,
         float $temps_trajets,
-        string $information_sup
+        string $information_sup,
+        bool $voyage_ecologique
 
     )
     {
          $this->num_trajet = $num_trajet;
-         $this->date_arrivee = $date_arrivee;
-         $this->date_depart = $date_depart;
-         $this->heure_depart = $heure_depart;
-         $this->heure_arrivee = $heure_arrivee;
+         $this->date_heure_arrivee = $date_heure_arrivee;
+         $this->date_heure_depart = $date_heure_depart;
          $this->ville_depart = $ville_depart;
          $this->ville_arrivee = $ville_arrivee;
          $this->pseudo_chauffeur = $pseudo_chauffeur;
          $this->marque = $marque;
          $this->modele = $modele;
-         $this->$nbr_place_restantes = $nbr_place_restantes;
+         $this->nbr_place_restantes = $nbr_place_restantes;
          $this->nbr_place_trajet = $nbr_place_trajet;
          $this->prix_personne = $prix_personne;
          $this->temps_trajets = $temps_trajets;
          $this->information_sup = $information_sup;
+         $this->voyage_ecologique = $voyage_ecologique;
 
     }
 
@@ -132,99 +125,53 @@ class ProposeTrajetChauffeurs
      *
      * @return num_trajet
      */
-    public function getNum_trajet()
+    public function getNumTrajet()
     {
         return $this->num_trajet;
     }
 
     /**
-     * Récupère la date d'arrivée
+     * Récupère la date et l'heure d'arrivée
      *
-     * @return date_arrivee
+     * @return date_heure_arrivee
      */
-    public function getDate_arrivee()
+    public function getDateHeureArrivee()
     {
-        return $this->date_arrivee;
+        return $this->date_heure_arrivee;
     }
 
     /**
-     * Modifie la date d'arrivée
+     * Modifie la date et l'heure d'arrivée
      *
-     * @param DateTime $date_arrivee
-     * @return date_arrivee
+     * @param DateTime $date_heure_arrivee
+     * @return date_heure_arrivee
      */
-    public function setDate_arrivee($date_arrivee)
+    public function setDateHeureArrivee($date_heure_arrivee)
     {
-        $this->date_arrivee = $date_arrivee;
+        $this->date_heure_arrivee = $date_heure_arrivee;
 
         return $this;
     }
 
     /**
-     * Récupère la date de départ
+     * Récupère la date et l'heure de départ
      *
-     * @return date_depart
+     * @return date_heure_depart
      */
-    public function getDate_depart()
+    public function getDateHeureDepart()
     {
-        return $this->date_depart;
+        return $this->date_heure_depart;
     }
 
     /**
-     * Modifie la date de départ
+     * Modifie la date et l'heure de départ
      *
-     * @param DateTime $date_depart
-     * @return date_depart
+     * @param DateTime $date_heure_depart
+     * @return date_heure_depart
      */
-    public function setDate_depart($date_depart)
+    public function setDateHeureDepart($date_heure_depart)
     {
-        $this->date_depart = $date_depart;
-
-        return $this;
-    }
-
-    /**
-     * Récupère l'heure de départ
-     *
-     * @return heure_depart
-     */
-    public function getHeure_depart()
-    {
-        return $this->heure_depart;
-    }
-
-    /**
-     * Modifie l'heure de départ
-     *
-     * @param DateTime $heure_depart
-     * @return heure_depart
-     */
-    public function setHeure_depart($heure_depart)
-    {
-        $this->heure_depart = $heure_depart;
-
-        return $this;
-    }
-
-    /**
-     * Récupère l'heure d'arrivée
-     *
-     * @return heure_arrivee
-     */
-    public function getHeure_arrivee()
-    {
-        return $this->heure_arrivee;
-    }
-
-    /**
-     * Modifie l'heure d'arrivée
-     *
-     * @param DateTime $heure_arrivee
-     * @return heure_arrivee
-     */
-    public function setHeure_arrivee($heure_arrivee)
-    {
-        $this->heure_arrivee = $heure_arrivee;
+        $this->date_heure_depart = $date_heure_depart;
 
         return $this;
     }
@@ -234,7 +181,7 @@ class ProposeTrajetChauffeurs
      *
      * @return ville_depart
      */
-    public function getVille_depart()
+    public function getVilleDepart()
     {
         return $this->ville_depart;
     }
@@ -245,7 +192,7 @@ class ProposeTrajetChauffeurs
      * @param string $ville_depart
      * @return ville_depart
      */
-    public function setVille_depart($ville_depart)
+    public function setVilleDepart($ville_depart)
     {
         $this->ville_depart = $ville_depart;
 
@@ -257,7 +204,7 @@ class ProposeTrajetChauffeurs
      *
      * @return ville_arrivee
      */
-    public function getVille_arrivee()
+    public function getVilleArrivee()
     {
         return $this->ville_arrivee;
     }
@@ -268,7 +215,7 @@ class ProposeTrajetChauffeurs
      * @param string $ville_arrivee
      * @return ville_arrivee
      */
-    public function setVille_arrivee($ville_arrivee)
+    public function setVilleArrivee($ville_arrivee)
     {
         $this->ville_arrivee = $ville_arrivee;
 
@@ -280,7 +227,7 @@ class ProposeTrajetChauffeurs
      *
      * @return pseudo_chauffeur
      */
-    public function getPseudo_chauffeur()
+    public function getPseudoChauffeur()
     {
         return $this->pseudo_chauffeur;
     }
@@ -291,7 +238,7 @@ class ProposeTrajetChauffeurs
      * @param string $pseudo_chauffeur
      * @return pseudo_chauffeur
      */
-    public function setPseudo_chauffeur($pseudo_chauffeur)
+    public function setPseudoChauffeur($pseudo_chauffeur)
     {
         $this->pseudo_chauffeur= $pseudo_chauffeur;
 
@@ -349,7 +296,7 @@ class ProposeTrajetChauffeurs
      *
      * @return nbr_place_restantes
      */
-    public function getNbr_place_restantes()
+    public function getNbrPlaceRestantes()
     {
         return $this->nbr_place_restantes;
     }
@@ -360,7 +307,7 @@ class ProposeTrajetChauffeurs
      * @param int $nbr_place_restantes
      * @return nbr_place_restantes
      */
-    public function setNbr_place_restantes($nbr_place_restantes)
+    public function setNbrPlaceRestantes($nbr_place_restantes)
     {
         $this->nbr_place_restantes = $nbr_place_restantes;
 
@@ -372,7 +319,7 @@ class ProposeTrajetChauffeurs
      *
      * @return nbr_place_trajet
      */
-    public function getNbr_place_trajet()
+    public function getNbrPlaceTrajet()
     {
         return $this->nbr_place_trajet;
     }
@@ -383,7 +330,7 @@ class ProposeTrajetChauffeurs
      * @param int $nbr_place_trajet
      * @return nbr_place_trajet
      */
-    public function setNbr_place_trajet($nbr_place_trajet)
+    public function setNbrPlaceTrajet($nbr_place_trajet)
     {
         $this->nbr_place_trajet = $nbr_place_trajet;
 
@@ -395,7 +342,7 @@ class ProposeTrajetChauffeurs
      *
      * @return prix_personne
      */
-    public function getPrix_personne()
+    public function getPrixPersonne()
     {
         return $this->prix_personne;
     }
@@ -406,7 +353,7 @@ class ProposeTrajetChauffeurs
      * @param int $prix_personne
      * @return prix_personne
      */
-    public function setPrix_personne($prix_personne)
+    public function setPrixPersonne($prix_personne)
     {
         $this->prix_personne = $prix_personne;
 
@@ -418,7 +365,7 @@ class ProposeTrajetChauffeurs
      *
      * @return temps_trajets
      */
-    public function getTemps_trajets()
+    public function getTempsTrajets()
     {
         return $this->temps_trajets;
     }
@@ -429,7 +376,7 @@ class ProposeTrajetChauffeurs
      * @param float $temps_trajets
      * @return temps_trajets
      */
-    public function setTemps_trajets($temps_trajets)
+    public function setTempsTrajets($temps_trajets)
     {
         $this->temps_trajets = $temps_trajets;
 
@@ -441,7 +388,7 @@ class ProposeTrajetChauffeurs
      *
      * @return information_sup
      */
-    public function getInformation_sup()
+    public function getInformationSup()
     {
         return $this->information_sup;
     }
@@ -452,12 +399,36 @@ class ProposeTrajetChauffeurs
      * @param string $information_sup
      * @return information_sup
      */
-    public function setInformation_sup($information_sup)
+    public function setInformationSup($information_sup)
     {
         $this->information_sup = $information_sup;
 
         return $this;
     }
 
+    /**
+     * Récupère les voyages ecologique
+     *
+     * @return voyage_ecologique
+     */
+    public function getVoyageEcologique()
+    {
+        return $this->voyage_ecologique;
+    }
+
+    /**
+     * Modifie/Affecte  les voyages ecologique
+     *
+     * @param bool $voyage_ecologique
+     * @return voyage_ecologique
+     */
+    public function setVoyageEcologique($voyage_ecologique)
+    {
+        $this->voyage_ecologique = $voyage_ecologique;
+
+        return $this;
+    }
+
+   
     
 }

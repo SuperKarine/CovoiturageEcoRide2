@@ -33,7 +33,7 @@ class Villes
      *
      * @return id_villes
      */
-    public function getId_villes()
+    public function getIdVilles()
     {
         return $this->id_villes;
     }
@@ -43,7 +43,7 @@ class Villes
      *
      * @return nom_ville
      */
-    public function getNom_ville()
+    public function getNomVille()
     {
         return $this->nom_ville;
     }
@@ -54,7 +54,7 @@ class Villes
      * @param string $nom_ville
      * @return nom_ville
      */
-    public function setNom_ville($nom_ville)
+    public function setNomVille($nom_ville)
     {
         $this->nom_ville = $nom_ville;
 
