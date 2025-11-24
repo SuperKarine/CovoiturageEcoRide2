@@ -24,11 +24,6 @@ return [
         "action" => "Propose_trajet_chauffeurs"
     ],
 
-    "/reserver_trajet" => [
-        "controller" => "App\Controller\PageController",
-        "action" => "reserver_trajet"
-    ],
-
     "/propose_trajet_passagers" => [
         "controller" => "App\Controller\PageController",
         "action" => "propose_trajet_passagers"
@@ -44,10 +39,6 @@ return [
         "action" => "trajets"
     ],
 
-    "/reserver_trajet" => [
-        "controller" => "App\Controller\PageController",
-        "action" => "reserver_trajet"
-    ],
 
     "/read_voitures" => [
         "controller" => "App\Controller\PageController",
@@ -67,7 +58,26 @@ return [
     "/essaie_trajets" => [
         "controller" => "App\Controller\PageController",
         "action" => "essaie_trajets"
+    ],
+
+    "/reserver_trajet" => [
+        "controller" => "App\Controller\ReservationController",
+        "action" => "reserverTrajet"
+    ],
+
+    "/traiter_reservation" => [
+        "controller" => "App\Controller\ReservationController", 
+        "action" => "traiterReservation"
+    ],
+
+    "/mes_reservations" => [
+        "controller" => "App\Controller\ReservationController",
+        "action" => "mesReservations"
     ]
+
+    
+
+    
 
 
 

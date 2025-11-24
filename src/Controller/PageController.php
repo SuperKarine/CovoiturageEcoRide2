@@ -88,6 +88,18 @@ class PageController extends Controller
     *]);
     */
 
+    public function renderView(string $view): void
+    {
+        $this->render($view);
+    }   
+
+    public function login(): void
+    {
+        $this->render('page/login');
+    }
+
+    
+
     
 
     

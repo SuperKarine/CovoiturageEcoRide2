@@ -8,7 +8,19 @@ define('APP_ENV', ".env");
 
 use App\Routing\Router;
 
+// Démarrer la session
+session_start();
+
 $router = new Router();
+
+// Routes d'authentification
+$router->match('/connexion', 'connexion', 'login')
+       ->match('/inscription', 'inscription', 'register')
+       ->post('/login', 'AuthController@handleLogin')
+       ->post('/register', 'AuthController@handleRegister')
+       ->get('/logout', 'AuthController@logout');
+
+
 $router->handleRequest($_SERVER["REQUEST_URI"]);
 
 
