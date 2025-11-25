@@ -73,6 +73,24 @@ return [
     "/mes_reservations" => [
         "controller" => "App\Controller\ReservationController",
         "action" => "mesReservations"
+    ],
+
+    // Route GET pour afficher le formulaire unique
+    '/register-recharge' => [
+        'controller' => 'App\Controller\AuthController',
+        'action' => 'showRegisterRecharge'
+    ],
+
+    // Route POST pour traiter l'inscription (utilisateurs non connectés)
+    '/auth/register' => [
+        'controller' => 'App\Controller\AuthController', 
+        'action' => 'handleRegister'
+    ],
+
+    // Route POST pour traiter la recharge (utilisateurs connectés)
+    '/auth/recharge' => [
+        'controller' => 'App\Controller\AuthController',
+        'action' => 'handleRecharge'
     ]
 
     
