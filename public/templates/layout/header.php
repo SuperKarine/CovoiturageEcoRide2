@@ -43,11 +43,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/passagers">Espace Passagers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/apropos">A propos</a>
-                    </li>
-                    
+                    </li> 
                     <li class="nav-item">
                         <a class="nav-link" href="/inscription">Inscription</a>
                     </li>

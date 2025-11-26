@@ -9,17 +9,10 @@ use DateTime;
 
 class ProposeTrajetChauffeursRepository extends Repository
 {
-    /** 
-    *public function findAll() : array
-    *{
-    *    $query = $this->pdo->prepare("SELECT * FROM propose_trajet_chauffeurs");
-    *    $query->execute();
-
-    *    $trajets_chauffeurs = $query->fetchAll($this->pdo::FETCH_ASSOC);
-
-     *   return $trajets_chauffeurs;
-    *}
-    */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function findAll(): array
     {

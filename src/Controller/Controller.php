@@ -18,4 +18,11 @@ class Controller
         }
 
     }
+
+    public function renderView(string $view): void
+    {
+        $this->render($view);
+    }
+
+
 }

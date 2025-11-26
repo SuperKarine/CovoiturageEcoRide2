@@ -56,26 +56,21 @@ class Chauffeurs extends Utilisateurs
      */
     protected string $preferences;
 
-
     /**
      * Chauffeurs constructor 
      */
     public function __construct(
+        // paramètres pour la classe parente Utilisateurs
+        string $nom,
+        string $prenom,
+        string $pseudo,
+        string $email,
+        string $mot_de_passe,
+        DateTime $date_naissance,
+        string $telephone,
+        bool $isChauffeur,
 
-
-         // paramètres pour la classe parente Utilisateurs
-
-         string $nom,
-         string $prenom,
-         string $pseudo,
-         string $email,
-         string $mot_de_passe,
-         DateTime $date_naissance,
-         string $telephone,
-         bool $isChauffeur,
-
-         //Paramètre de Chauffeurs
-
+        //Paramètre de Chauffeurs
         int $id_chauffeurs,
         float $moyenne_note_chauffeur,
         string $plaque_immatriculation,
@@ -86,30 +81,82 @@ class Chauffeurs extends Utilisateurs
         bool $animal,
         bool $fumeur,
         string $preferences
-
-       
     )
     { 
         // Appel du constructeur parent Utilisateurs
-        
         parent::__construct($nom, $prenom, $pseudo, $email, $mot_de_passe, $date_naissance, $telephone, $isChauffeur);
 
         //Initialisation des propriétés de Chauffeurs
-         $this->id_chauffeurs = $id_chauffeurs;
-         $this->moyenne_note_chauffeur = $moyenne_note_chauffeur;
-         $this->plaque_immatriculation = $plaque_immatriculation;
-         $this->date_1_mise_circulation = $date_1_mise_circulation;
-         $this->modele = $modele;
-         $this->couleur = $couleur;
-         $this->marque = $marque;
-         $this->animal = $animal;
-         $this->fumeur = $fumeur;
-         $this->preferences = $preferences;
-
-        
-
+        $this->id_chauffeurs = $id_chauffeurs;
+        $this->moyenne_note_chauffeur = $moyenne_note_chauffeur;
+        $this->plaque_immatriculation = $plaque_immatriculation;
+        $this->date_1_mise_circulation = $date_1_mise_circulation;
+        $this->modele = $modele;
+        $this->couleur = $couleur;
+        $this->marque = $marque;
+        $this->animal = $animal;
+        $this->fumeur = $fumeur;
+        $this->preferences = $preferences;
     }
 
+    /**
+     * Crée une instance de Chauffeurs à partir d'un tableau de données
+     * Méthode alternative au constructeur pour l'hydratation depuis la BDD
+     */
+    public static function fromArray(array $data): self
+    {
+        // Convertir les chaînes de dates en objets DateTime si nécessaire
+        $dateNaissance = $data['date_naissance'] ?? null;
+        if (is_string($dateNaissance)) {
+            $dateNaissance = DateTime::createFromFormat('Y-m-d', $dateNaissance);
+        }
+
+        $dateMiseCirculation = $data['date_1_mise_circulation'] ?? null;
+        if (is_string($dateMiseCirculation)) {
+            $dateMiseCirculation = DateTime::createFromFormat('Y-m-d', $dateMiseCirculation);
+        }
+
+        // Gérer les booléens (peuvent venir de la BDD comme 0/1)
+        $animal = $data['animal'] ?? false;
+        if (is_string($animal)) {
+            $animal = $animal === '1' || $animal === 'true';
+        }
+
+        $fumeur = $data['fumeur'] ?? false;
+        if (is_string($fumeur)) {
+            $fumeur = $fumeur === '1' || $fumeur === 'true';
+        }
+
+        $isChauffeur = $data['isChauffeur'] ?? true;
+        if (is_string($isChauffeur)) {
+            $isChauffeur = $isChauffeur === '1' || $isChauffeur === 'true';
+        }
+
+        // Assurer des valeurs par défaut pour éviter les erreurs
+        return new self(
+            // Paramètres Utilisateurs
+            $data['nom'] ?? '',
+            $data['prenom'] ?? '',
+            $data['pseudo'] ?? '',
+            $data['email'] ?? '',
+            $data['mot_de_passe'] ?? '', 
+            $dateNaissance ?? new DateTime(),
+            $data['telephone'] ?? '',
+            $isChauffeur,
+
+            // Paramètres Chauffeurs
+            $data['id_chauffeurs'] ?? 0,
+            $data['moyenne_note_chauffeur'] ?? 0.0,
+            $data['plaque_immatriculation'] ?? '',
+            $dateMiseCirculation ?? new DateTime(),
+            $data['modele'] ?? '',
+            $data['couleur'] ?? '',
+            $data['marque'] ?? '',
+            $animal,
+            $fumeur,
+            $data['preferences'] ?? ''
+        );
+    }
 
     /**
      * Récupère l'id du chauffeur
@@ -327,6 +374,4 @@ class Chauffeurs extends Utilisateurs
 
         return $this;
     }
-
-    
 }
